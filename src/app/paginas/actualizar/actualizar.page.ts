@@ -19,6 +19,8 @@ export class ActualizarPage implements OnInit {
   sectores:string = ''
   zonas:string = ''
   programaciones:string = ''
+  potenciales:string = ''
+  otros:string = ''
 
   constructor(private sc:ActualizarService, private ruta:Router,private agenda:AgendaService) { }
 
@@ -31,6 +33,8 @@ export class ActualizarPage implements OnInit {
     this.sc.actualizar_ciudades().then((r:any) => this.ciudades = r)
     this.sc.actualizar_clase_cxc().then((r:any) => this.clases = r)
     this.sc.actualizar_clientes().then((r:any) => this.clientes = r)
+    this.sc.actualizar_potenciales().then((r:any) => this.potenciales = r)
+    this.sc.actualizar_potenciales_otros().then((r:any) => this.otros = r)
     this.sc.actualizar_departamentos().then((r:any) => this.departamentos = r)
     this.sc.actualizar_paises().then((r:any) => this.paises = r)
     this.sc.actualizar_programaciones_todos().then((r:any) => this.programaciones = r)

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as ForerunnerDB from 'forerunnerdb'  
-import { Cliente, Generica, Sector, Zona } from '../modelo/Cliente';
+import { Cliente, Generica, Sector, Zona, Potencial } from '../modelo/Cliente';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Ciudad, Pais, Departamento, Coordenadas } from '../modelo/Ubicacion';
@@ -20,6 +20,8 @@ export class ActualizarService {
   ciudades:Ciudad[] = []
   claseCXC:Generica[] = []
   clientes:Cliente[] = []
+  potenciales:Potencial[] = []
+  potencialesOtros:Potencial[] = []
   departamentos:Departamento[] = []
   paises:Pais[] = []
   sectores:Sector[] = []
@@ -35,6 +37,156 @@ export class ActualizarService {
   leer_archivo(vendedor:string, archivo:string)
   {
     return this.http.get(`${ url }leer_info_agenda/${ vendedor }/${archivo}`)
+  }
+
+  actualizar_potenciales()
+  {
+    const tabla = 'clientes_potenciales'
+    let coleccion:any
+    let mensaje:string = '...'
+    
+    console.log('Actualizando potenciales...')
+    return new Promise((r,j) => {
+    this.leer_archivo('001',tabla)
+    .subscribe((u:any) => {
+          this.potenciales = u
+
+          coleccion = this.bd.collection(tabla)
+          coleccion.remove()
+
+          this.bd.collection(tabla).deferredCalls(tabla)
+
+          this.potenciales.forEach(u => {
+            coleccion.insert({
+              IDCliente: u.IDCliente,
+              Nombre: u.Nombre,
+              Nit: u.Nit,
+              Clase: u.Clase,
+              Represent: u.Represent,
+              Contacto: u.Contacto,
+              FactA: u.FactA,
+              Dir1: u.Dir1,
+              Zona: u.Zona,
+              Vend: u.Vend,
+              Telef: u.Telef,
+              Correo: u.Correo,
+              Movil: u.Movil,
+              Obs: u.Obs,
+              Sector: u.Sector,
+              Ccial: u.Ccial,
+              Canal: u.Canal,
+              Pdtos: u.Pdtos,
+              Local: u.Local,
+              Fecha: u.Fecha,
+              Trans: u.Trans,
+              CodCiudad: u.CodCiudad,
+              SnInfo: u.SnInfo,
+              Activo: u.Activo,
+              Tel_Administrador: u.Tel_Administrador,
+              Tel_Compras: u.Tel_Compras,
+              Tel_Tesoreria: u.Tel_Tesoreria,
+              CodPais: u.CodPais,
+              CodEstado: u.CodEstado,
+              ClienteAdmin: u.ClienteAdmin,
+              NomAdm: u.NomAdm,
+              NomCom: u.NomCom,
+              NomTes: u.NomTes
+            })
+          })
+
+          
+          coleccion.save((err:any) => {
+            if (err)
+            {
+                console.log(tabla + ' : ' + JSON.stringify(err))
+                mensaje = 'X'
+            }
+            else 
+            {
+                console.log(`Coleccion ${ tabla } guardada`)
+                mensaje = 'OK'
+            }
+
+            r(mensaje)
+          })
+        })
+
+      })
+  }
+
+  actualizar_potenciales_otros()
+  {
+    const tabla = 'clientes_potenciales_otros'
+    let coleccion:any
+    let mensaje:string = '...'
+    
+    console.log('Actualizando potenciales otros...')
+    return new Promise((r,j) => {
+    this.leer_archivo('001',tabla)
+    .subscribe((u:any) => {
+          this.potencialesOtros = u
+
+          coleccion = this.bd.collection(tabla)
+          coleccion.remove()
+
+          this.bd.collection(tabla).deferredCalls(tabla)
+
+          this.potenciales.forEach(u => {
+            coleccion.insert({
+              IDCliente: u.IDCliente,
+              Nombre: u.Nombre,
+              Nit: u.Nit,
+              Clase: u.Clase,
+              Represent: u.Represent,
+              Contacto: u.Contacto,
+              FactA: u.FactA,
+              Dir1: u.Dir1,
+              Zona: u.Zona,
+              Vend: u.Vend,
+              Telef: u.Telef,
+              Correo: u.Correo,
+              Movil: u.Movil,
+              Obs: u.Obs,
+              Sector: u.Sector,
+              Ccial: u.Ccial,
+              Canal: u.Canal,
+              Pdtos: u.Pdtos,
+              Local: u.Local,
+              Fecha: u.Fecha,
+              Trans: u.Trans,
+              CodCiudad: u.CodCiudad,
+              SnInfo: u.SnInfo,
+              Activo: u.Activo,
+              Tel_Administrador: u.Tel_Administrador,
+              Tel_Compras: u.Tel_Compras,
+              Tel_Tesoreria: u.Tel_Tesoreria,
+              CodPais: u.CodPais,
+              CodEstado: u.CodEstado,
+              ClienteAdmin: u.ClienteAdmin,
+              NomAdm: u.NomAdm,
+              NomCom: u.NomCom,
+              NomTes: u.NomTes
+            })
+          })
+
+          
+          coleccion.save((err:any) => {
+            if (err)
+            {
+                console.log(tabla + ' : ' + JSON.stringify(err))
+                mensaje = 'X'
+            }
+            else 
+            {
+                console.log(`Coleccion ${ tabla } guardada`)
+                mensaje = 'OK'
+            }
+
+            r(mensaje)
+          })
+        })
+
+      })
   }
   
   actualizar_programaciones_todos()
@@ -87,7 +239,7 @@ export class ActualizarService {
         })
 
       })
-  }
+  }  
 
   actualizar_clase_cxc()
   {

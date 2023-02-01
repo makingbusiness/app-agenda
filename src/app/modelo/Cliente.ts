@@ -88,3 +88,40 @@ export interface Zona
     CodZona: string
     Descrip: string
 }
+
+export interface Potencial
+{
+    IDCliente: string
+    Nombre: string
+    Nit: string
+    Clase: string
+    Represent: string
+    Contacto: string
+    FactA: string
+    Dir1: string
+    Zona: string
+    Vend: string
+    Telef: string
+    Correo: string
+    Movil: string
+    Obs: string
+    Sector: string
+    Ccial: string
+    Canal: number
+    Pdtos: string
+    Local: string
+    Fecha: string
+    Trans: string
+    CodCiudad: number
+    SnInfo: string
+    Activo: string
+    Tel_Administrador: string
+    Tel_Compras: string
+    Tel_Tesoreria: string
+    CodPais: number
+    CodEstado: number
+    ClienteAdmin: string
+    NomAdm: string
+    NomCom: string
+    NomTes: string
+}
