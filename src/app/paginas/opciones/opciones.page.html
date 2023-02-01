@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>cliente</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="buscar()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+      <ion-button (click)="irInicio()">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+      <ion-button (click)="regresar()">
+        <ion-icon name="chevron-back-circle-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="info">
+      <ion-icon name="person-circle" aria-hidden="true"></ion-icon>
+      <ion-label>Info</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="notas">
+      <ion-icon name="document-text" aria-hidden="true"></ion-icon>
+      <ion-label>Notas</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="programaciones">
+      <ion-icon name="calendar-number" aria-hidden="true"></ion-icon>
+      <ion-label>Programaciones</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="productos">
+      <ion-icon name="information-circle" aria-hidden="true"></ion-icon>
+      <ion-label>Otros</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

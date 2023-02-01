@@ -1,0 +1,153 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Buscar</ion-title>
+    <ion-buttons slot="end">
+        <ion-button (click)="irInicio()">
+          <ion-icon slot="icon-only" name="home"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid fixed>
+      <ion-row>       
+        <ion-col size="4">
+            <ion-toggle [(ngModel)]="esPais">
+            </ion-toggle>
+        </ion-col>
+        <ion-col size="8">
+            <ion-item>
+              <ion-select [(ngModel)]="paisSel" multiple="false" (ionChange)="cambioPais()" interface="popover" [disabled]="!esPais">
+                <ion-select-option [value]="pais.Pais" *ngFor="let pais of paises">{{ pais.NombrePais }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">
+          <ion-toggle [(ngModel)]="esDpto">
+          </ion-toggle>
+        </ion-col>
+
+        <ion-col size="8">
+          <ion-item>
+            <ion-select [(ngModel)]="dptoSel" multiple="false" (ionChange)="cambioDpto()" interface="popover" [disabled]="!esDpto">
+              <ion-select-option [value]="dpto.Estado" *ngFor="let dpto of dptos">{{ dpto.NombreEstado }}</ion-select-option>
+            </ion-select>
+          </ion-item>          
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">
+          <ion-toggle [(ngModel)]="esCiudad">
+          </ion-toggle>
+        </ion-col>
+
+        <ion-col size="8">
+          <ion-item>
+            <ion-select [(ngModel)]="ciudadSel" multiple="false" (ionChange)="cambioCiudad()" interface="popover" [disabled]="!esCiudad">
+              <ion-select-option [value]="ciudad.Ciudad" *ngFor="let ciudad of ciudades">{{ ciudad.NombreCiudad }}</ion-select-option>
+            </ion-select>
+          </ion-item>                    
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+            <ion-toggle [(ngModel)]="esZona"></ion-toggle>
+        </ion-col>
+          <ion-col size="8">
+            <ion-item>
+              <ion-select [(ngModel)]="zonaSel" multiple="false" (ionChange)="cambioZona()" interface="popover" [disabled]="!esZona">
+                <ion-select-option [value]="zona.CodZona" *ngFor="let zona of zonas">{{ zona.Descrip }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+            <ion-toggle [(ngModel)]="esSector"></ion-toggle>
+        </ion-col>
+          <ion-col size="8">
+            <ion-item>
+              <ion-select [(ngModel)]="sectorSel" multiple="false" (ionChange)="cambioSector()" interface="popover" [disabled]="!esSector">
+                <ion-select-option [value]="sector.CodSector" *ngFor="let sector of sectores">{{ sector.Descrip }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">
+          <ion-toggle [(ngModel)]="esCanal">
+          </ion-toggle>
+        </ion-col>
+
+        <ion-col size="8">
+          <ion-item>
+            <ion-select [(ngModel)]="canalSel" multiple="false" (ionChange)="cambioCanal()" interface="popover" [disabled]="!esCanal" placeholder="Canal">
+              <ion-select-option [value]="canal.Descrip" *ngFor="let canal of canales">{{ canal.Descrip }}</ion-select-option>
+            </ion-select>
+          </ion-item>          
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">
+          <ion-toggle [(ngModel)]="esClase">
+          </ion-toggle>
+        </ion-col>
+
+        <ion-col size="8">
+          <ion-item>
+            <ion-select [(ngModel)]="claseSel" multiple="false" (ionChange)="cambioClase()" interface="popover" [disabled]="!esClase" placeholder="Clase">
+              <ion-select-option [value]="clase.Descrip" *ngFor="let clase of clases">{{ clase.Descrip }}</ion-select-option>
+            </ion-select>
+          </ion-item>          
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">Potenciales</ion-col>
+        <ion-col size="6">
+            <ion-toggle [(ngModel)]="esPotencial">
+            </ion-toggle>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">Otros Pot.</ion-col>
+        <ion-col size="6">
+          <ion-toggle [(ngModel)]="esOtroPotencial">
+          </ion-toggle>          
+        </ion-col>
+      </ion-row>      
+      <ion-row>
+        <ion-col size="6">Programación</ion-col>
+        <ion-col size="6"></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">
+          <ion-toggle [(ngModel)]="esDato">
+          </ion-toggle>
+        </ion-col>
+        <ion-col size="8">
+            <input type="text" [(ngModel)]="textoSel" placeholder="Nombre / NIT">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6"></ion-col>
+        <ion-col size="6"></ion-col>
+      </ion-row>
+      <ion-row class="ion-padding">
+        <ion-col size="6">         
+            <ion-button (click)="crear()" expand="block" fill="solid" shape="round">
+              Nuevo
+            </ion-button>
+        </ion-col>
+        <ion-col size="6" class="ion-text-center">
+          <ion-button (click)="buscar()">
+            <ion-icon slot="icon-only" name="search"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+</ion-content>

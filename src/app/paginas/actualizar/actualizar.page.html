@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>actualizar</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="irInicio()">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Canales</ion-label>
+        </ion-col>
+        <ion-col size="6">{{ canales }}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Clases</ion-label>
+        </ion-col>
+        <ion-col size="6">{{ clases }}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Paises</ion-label>
+        </ion-col>
+        <ion-col size="6">{{ paises }}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Departamentos</ion-label>
+        </ion-col>
+        <ion-col size="6">{{ departamentos }}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Ciudades</ion-label>
+        </ion-col>
+        <ion-col size="6">{{ ciudades }}</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Clientes</ion-label>
+        </ion-col>
+        <ion-col size="6">{{ clientes }}</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Programaciones</ion-label>
+        </ion-col>
+        <ion-col size="6">{{ programaciones }}</ion-col>
+      </ion-row>      
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Sectores</ion-label>
+        </ion-col>
+        <ion-col size="6">{{ sectores }}</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Zonas</ion-label>
+        </ion-col>
+        <ion-col size="6">{{ zonas }}</ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-button (click)="actualizar()" expand="block" fill="clear" shape="round">
+      Actualizar
+    </ion-button>
+</ion-content>

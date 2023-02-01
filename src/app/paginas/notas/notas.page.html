@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>notas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let nota of notas">
+          <ion-card>
+              <ion-card-subtitle>{{ nota.fecha}}</ion-card-subtitle>
+              <ion-card-content>
+                  {{ nota.nota }}
+              </ion-card-content>
+          </ion-card>
+        </ion-item>
+    </ion-list>
+</ion-content>

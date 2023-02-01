@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>programaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+      <ion-radio-group name="auto" value="tesla">
+          <ion-grid fixed>
+            <ion-row>
+              <ion-col size="6">
+                <ion-label class="ion-padding">Propias</ion-label>
+                <ion-radio value="propias" (ionFocus)="mostrarPropias()"></ion-radio>
+              </ion-col>
+              <ion-col size="6">
+                <ion-label class="ion-padding">Otros</ion-label>
+                <ion-radio value="otros" (ionFocus)="mostrarOtras()"></ion-radio>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+      </ion-radio-group>
+    </ion-list>
+    <ion-list *ngIf="esPropia">
+          <ion-item *ngFor="let prg of programaciones">
+            <ion-card>
+              <ion-card-content>
+                <ion-grid fixed>
+                  <ion-row>
+                    <ion-col size="6">Programación</ion-col>
+                    <ion-col size="6">{{ prg.FechaProg }}</ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col size="6">Visita</ion-col>
+                    <ion-col size="6">{{ prg.FechaVisita }}</ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col size="6">Llamada</ion-col>
+                    <ion-col size="6"></ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col size="6">Observaciones</ion-col>
+                    <ion-col size="6">{{ prg.Observaciones }}</ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card>
+          </ion-item>
+    </ion-list>
+    <ion-list *ngIf="esOtros">
+          <ion-item *ngFor="let prg of programaciones_todo">
+            <ion-card>
+                <ion-card-content>
+                    <ion-grid fixed>
+                      <ion-row>
+                        <ion-col size="6">Programación</ion-col>
+                        <ion-col size="6">{{ prg.FechaProg }}</ion-col>
+                      </ion-row>
+                      <ion-row>
+                        <ion-col size="6">Visita</ion-col>
+                        <ion-col size="6">{{ prg.FechaVisita }}</ion-col>
+                      </ion-row>
+                      <ion-row>
+                        <ion-col size="6">Llamada</ion-col>
+                        <ion-col size="6"></ion-col>
+                      </ion-row>
+                      <ion-row>
+                        <ion-col size="6">Observaciones</ion-col>
+                        <ion-col size="6">{{ prg.Observaciones }}</ion-col>
+                      </ion-row>
+                      <ion-row>
+                        <ion-col size="6">Vendedor</ion-col>
+                        <ion-col size="6">{{ prg.Vendedor }}</ion-col>
+                      </ion-row>
+                    </ion-grid>
+                </ion-card-content>
+            </ion-card>
+          </ion-item>
+    </ion-list>
+</ion-content>

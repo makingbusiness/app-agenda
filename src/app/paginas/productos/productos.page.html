@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>productos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let coord of coordenadas">
+          <ion-card>
+              <ion-card-subtitle>
+                {{ coord.Fecha }} : {{ coord.Hora }}               
+              </ion-card-subtitle>
+              <ion-card-content>
+                 {{ coord.Latitud }} - {{ coord.Longitud }}
+              </ion-card-content>
+          </ion-card>
+        </ion-item>
+    </ion-list>
+</ion-content>
