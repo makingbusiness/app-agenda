@@ -186,6 +186,6 @@ export class FiltroPage implements OnInit {
 
   crear()
   {
-      
+      this.ruta.navigateByUrl('opciones')
   }
 }

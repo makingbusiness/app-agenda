@@ -24,6 +24,10 @@ export class NotasPage implements OnInit {
           console.log('Notas de cliente no potencial')
           this.notas = this.sc.cliente.notas
       }
+      else
+      {
+          console.log(this.sc.potencial.tipo)
+      }
   }
 
 }

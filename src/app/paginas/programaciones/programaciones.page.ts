@@ -26,6 +26,10 @@ export class ProgramacionesPage implements OnInit {
           this.agenda.programacion_cliente(this.agenda.cliente.codclie)
               .then((p:any) => this.programaciones = p)
       }
+      else
+      { 
+            console.log("Evento ionic: " + this.agenda.potencial.tipo)
+      }
   }
   
   ngOnInit() 
@@ -36,6 +40,10 @@ export class ProgramacionesPage implements OnInit {
       {
           this.agenda.programacion_cliente_todo(this.agenda.cliente.codclie)
           .then((p:any) => this.programaciones_todo = p)
+      }
+      else
+      {
+            console.log('Init ', this.agenda.potencial.tipo)
       }
   }
 

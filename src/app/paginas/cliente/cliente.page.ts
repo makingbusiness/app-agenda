@@ -11,7 +11,6 @@ import { Pais, Departamento, Ciudad } from '../../modelo/Ubicacion';
 })
 export class ClientePage implements OnInit {
 
-  dato:string = ''
   //cliente!:Cliente | Potencial
   notas:Nota[] = []
 
@@ -38,6 +37,8 @@ export class ClientePage implements OnInit {
     telef: '',
     movil: ''
   }
+
+  esOtro:boolean = false
 
   /*info:Adicionales = {
     canal: '',
@@ -111,7 +112,7 @@ export class ClientePage implements OnInit {
 
   cargar_datos()
   {
-      console.log('Cargando datos de ', this.dato)
+      this.esOtro = false
 
       if (this.sc.esPotencial)
       {
@@ -132,8 +133,10 @@ export class ClientePage implements OnInit {
           this.paisSel = this.sc.potencial.pais
           this.dptoSel = this.sc.potencial.estado
           this.ciudadSel = this.sc.potencial.ciudad
+
+          this.esOtro = this.sc.potencial.tipo == "Otros"
     
-          if (this.dptoSel !== this.sc.cliente.estado) this.listar_departamentos(this.paisSel)
+          if (this.dptoSel !== this.sc.potencial.estado) this.listar_departamentos(this.paisSel)
       }
       else
       {
@@ -172,6 +175,11 @@ export class ClientePage implements OnInit {
   {
       console.log('Departamento sel ', this.dptoSel)
       this.listar_ciudades(this.dptoSel)
+  }
+
+  guardar()
+  {
+      console.log('Guardando ', this.info)
   }
 
   programar()

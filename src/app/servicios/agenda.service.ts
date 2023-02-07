@@ -19,6 +19,7 @@ export class AgendaService {
 
   clientes:Cliente[] = []
   cliente: Cliente
+  potenciales:Potencial[] = []
   potencial:Potencial
   esPotencial:boolean = false
 
