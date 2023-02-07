@@ -19,15 +19,24 @@ export class ProgramacionesPage implements OnInit {
 
   ionViewDidEnter()
   {
-      this.agenda.programacion_cliente(this.agenda.cliente.codclie)
-          .then((p:any) => this.programaciones = p)
+      this.programaciones = []
+
+      if (!this.agenda.esPotencial)
+      {
+          this.agenda.programacion_cliente(this.agenda.cliente.codclie)
+              .then((p:any) => this.programaciones = p)
+      }
   }
   
   ngOnInit() 
   {
+      this.programaciones_todo = []
 
+      if (!this.agenda.esPotencial)
+      {
           this.agenda.programacion_cliente_todo(this.agenda.cliente.codclie)
           .then((p:any) => this.programaciones_todo = p)
+      }
   }
 
   mostrarPropias()

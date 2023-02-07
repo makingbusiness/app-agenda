@@ -17,7 +17,13 @@ export class NotasPage implements OnInit {
   
   ngOnInit() 
   {  
-      this.notas = this.sc.cliente.notas
+      this.notas = []
+
+      if (!this.sc.esPotencial)
+      {
+          console.log('Notas de cliente no potencial')
+          this.notas = this.sc.cliente.notas
+      }
   }
 
 }

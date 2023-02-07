@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AgendaService } from '../../servicios/agenda.service';
-import { Cliente, Nota, Adicionales, Generica } from '../../modelo/Cliente';
+import { Cliente, Nota, Adicionales, Generica, Potencial } from '../../modelo/Cliente';
 import { Pais, Departamento, Ciudad } from '../../modelo/Ubicacion';
 
 @Component({
@@ -12,7 +12,7 @@ import { Pais, Departamento, Ciudad } from '../../modelo/Ubicacion';
 export class ClientePage implements OnInit {
 
   dato:string = ''
-  cliente!:Cliente
+  //cliente!:Cliente | Potencial
   notas:Nota[] = []
 
   canalSel = ''
@@ -28,7 +28,18 @@ export class ClientePage implements OnInit {
   ciudadSel:number = 0
   ciudades:Ciudad[] = []
 
-  info:Adicionales = {
+  info = {
+    codclie: '',
+    descrip: '',
+    contacto: '',
+    represent: '',
+    direc1: '',
+    email: '',
+    telef: '',
+    movil: ''
+  }
+
+  /*info:Adicionales = {
     canal: '',
     centro_comercial: '',
     contacto: '',
@@ -44,9 +55,9 @@ export class ClientePage implements OnInit {
     tel_compras: '',
     tel_tesoreria: '',
     transportadora: ''
-  }
+  }*/
 
-  constructor(private ruta:Router, private sc:AgendaService) 
+  constructor(private ruta:Router, public sc:AgendaService) 
   { 
       /*this.dato = ruta.url.split('/')[2]
       console.log('Recibiendo ', this.dato)*/
@@ -101,19 +112,51 @@ export class ClientePage implements OnInit {
   cargar_datos()
   {
       console.log('Cargando datos de ', this.dato)
-      this.cliente = this.sc.cliente // this.sc.info_cliente(this.dato)[0]
-      this.info = this.cliente.adicionales
-      console.log('Datos del cliente ' + JSON.stringify(this.cliente))
-//      this.notas = this.cliente.notas
 
-      this.claseSel = this.cliente.clase
-      this.canalSel = this.info.canal
-
-      this.paisSel = this.cliente.pais
-      this.dptoSel = this.cliente.estado
-      this.ciudadSel = this.cliente.ciudad
-
-      if (this.dptoSel !== this.cliente.estado) this.listar_departamentos(this.paisSel)
+      if (this.sc.esPotencial)
+      {
+          this.info = {
+            codclie: this.sc.potencial.codclie,
+            descrip: this.sc.potencial.descrip,
+            contacto: this.sc.potencial.contacto,
+            direc1: this.sc.potencial.direc1,
+            email: this.sc.potencial.email,
+            movil: this.sc.potencial.movil,
+            represent: this.sc.potencial.represent,
+            telef: this.sc.potencial.telef
+          }
+    
+          this.claseSel = this.sc.potencial.clase
+          this.canalSel = this.sc.potencial.canal.toString()
+    
+          this.paisSel = this.sc.potencial.pais
+          this.dptoSel = this.sc.potencial.estado
+          this.ciudadSel = this.sc.potencial.ciudad
+    
+          if (this.dptoSel !== this.sc.cliente.estado) this.listar_departamentos(this.paisSel)
+      }
+      else
+      {
+          this.info = {
+            codclie: this.sc.cliente.codclie,
+            contacto: this.sc.cliente.adicionales.contacto,
+            descrip: this.sc.cliente.descrip,
+            direc1: this.sc.cliente.direc1,
+            email: this.sc.cliente.email,
+            movil: this.sc.cliente.movil,
+            represent: this.sc.cliente.represent,
+            telef: this.sc.cliente.telef
+          }
+    
+          this.claseSel = this.sc.cliente.clase
+          this.canalSel = this.sc.cliente.adicionales.canal
+    
+          this.paisSel = this.sc.cliente.pais
+          this.dptoSel = this.sc.cliente.estado
+          this.ciudadSel = this.sc.cliente.ciudad
+    
+          if (this.dptoSel !== this.sc.cliente.estado) this.listar_departamentos(this.paisSel)
+      }
 
   }
 
@@ -133,7 +176,15 @@ export class ClientePage implements OnInit {
 
   programar()
   {
-      this.sc.cliente = this.cliente
+/*      if (this.sc.esPotencial)
+      {
+          this.sc.potencial = this.cliente as Potencial
+      }
+      else
+      {
+          this.sc.cliente = this.cliente as Cliente
+      }
+*/
       this.ruta.navigate(['/detalle-programacion'])
   }
 }

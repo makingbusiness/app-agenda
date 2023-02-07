@@ -13,34 +13,70 @@
 </ion-header>
 
 <ion-content>
-    <ion-grid fixed>
-      <ion-label>LISTA DE CLIENTES</ion-label>
-      <ion-row *ngFor="let cliente of clientes">
-        <ion-col size="12">
-             <ion-card>
-                  <ion-card-title>{{ cliente.codclie }} - {{ cliente.descrip }}</ion-card-title>
-                  <ion-card-content (click)="verDetalle(cliente)">
-                      <ion-grid fixed>
-                        <ion-row>
-                          <ion-col size-md="6" size="12">
-                            {{ cliente.direc1 }} - {{ cliente.ciudad }}
-                          </ion-col>
-                          <ion-col size-md="6" size="12">
-                            {{ cliente.clase }} - {{ cliente.adicionales.productos }}
-                          </ion-col>
-                        </ion-row>
-                        <ion-row>
-                          <ion-col size-md="6" size="12">
-                            {{ cliente.telef }} {{ cliente.movil }}
-                          </ion-col>
-                          <ion-col size-md="6" size="12" *ngIf="cliente.adicionales">
-                            {{ cliente.adicionales. observaciones }}
-                          </ion-col>
-                        </ion-row>
-                      </ion-grid>
+
+    
+
+
+
+      <ion-grid fixed *ngIf="!esPotencial">
+        <ion-label>LISTA DE CLIENTES</ion-label>
+        <ion-row *ngFor="let cliente of clientes">
+          <ion-col size="12">
+           <ion-card>
+             <ion-card-title>{{ cliente.codclie }} - {{ cliente.descrip }}</ion-card-title>
+             <ion-card-content (click)="verDetalle(cliente)">
+               <ion-grid fixed>
+                 <ion-row>
+                   <ion-col size-md="6" size="12">
+                     {{ cliente.direc1 }} - {{ cliente.ciudad }}
+                        </ion-col>
+                        <ion-col size-md="6" size="12">
+                          {{ cliente.clase }} - {{ cliente.adicionales.productos }}
+                        </ion-col>
+                      </ion-row>
+                      <ion-row>
+                        <ion-col size-md="6" size="12">
+                          {{ cliente.telef }} {{ cliente.movil }}
+                        </ion-col>
+                        <ion-col size-md="6" size="12" *ngIf="cliente.adicionales">
+                          {{ cliente.adicionales. observaciones }}
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
                   </ion-card-content>
-             </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-grid fixed *ngIf="esPotencial">
+            <ion-label>LISTA DE CLIENTES POTENCIALES</ion-label>
+            <ion-row *ngFor="let cliente of potenciales">
+              <ion-col size="12">
+                <ion-card>
+                  <ion-card-title>{{ cliente.codclie }} - {{ cliente.descrip }}</ion-card-title>
+                  <ion-card-content (click)="verPotencial(cliente)">
+                    <ion-grid fixed>
+                      <ion-row>
+                        <ion-col size-md="6" size="12">
+                          {{ cliente.direc1 }} - {{ cliente.ciudad }}
+                        </ion-col>
+                        <ion-col size-md="6" size="12">
+                                {{ cliente.clase }} - {{ cliente.tipo }}
+                              </ion-col>
+                            </ion-row>
+                            <ion-row>
+                              <ion-col size-md="6" size="12">
+                                {{ cliente.telef }} {{ cliente.movil }}
+                              </ion-col>
+                              <ion-col size-md="6" size="12">
+                                {{ cliente.observaciones }}
+                              </ion-col>
+                            </ion-row>
+                          </ion-grid>
+                        </ion-card-content>
+                      </ion-card>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+
 </ion-content>

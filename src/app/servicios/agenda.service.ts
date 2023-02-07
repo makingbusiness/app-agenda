@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import * as ForerunnerDB from 'forerunnerdb';
-import { Cliente, Generica, Sector, Zona } from '../modelo/Cliente';
+import { Cliente, Generica, Sector, Zona, Potencial } from '../modelo/Cliente';
 import { Filtro } from '../modelo/Filtro';
 import { Pais, Departamento, Ciudad, Coordenadas } from '../modelo/Ubicacion';
 import { Programacion } from '../modelo/Programacion';
@@ -19,6 +19,8 @@ export class AgendaService {
 
   clientes:Cliente[] = []
   cliente: Cliente
+  potencial:Potencial
+  esPotencial:boolean = false
 
   noCompra:string[] = ['','TIENE INVENTARIO','DUEÑO AUSENTE','NO TIENE DINERO','LOCAL CERRADO','PENDIENTE DE PAGO']
 
@@ -97,6 +99,8 @@ export class AgendaService {
       let filtroDato = null
       let filtroSector = null
       let filtroZona = null
+      let filtroPotencial = null
+      let filtroPotencialOtro = null
 
       if (this.filtro.Estado !== 0)
       {
@@ -169,6 +173,24 @@ export class AgendaService {
           }
       }
 
+      if (this.filtro.Potenciales)
+      {
+          filtroPotencial = {
+              Tipo : {
+                  $eq: 'Potencial'
+              }
+          }
+      }
+
+      if (this.filtro.OtrosPotenciales)
+      {
+          filtroPotencial = {
+              Tipo : {
+                  $eq: 'Otros'
+              }
+          }
+      }
+
       filtroCons = {
         $and: [
           filtroCanal,
@@ -178,7 +200,9 @@ export class AgendaService {
           filtroEstado,
           filtroPais,
           filtroSector,
-          filtroZona
+          filtroZona,
+          filtroPotencial,
+          filtroPotencialOtro
         ]
       }
 
@@ -198,6 +222,158 @@ export class AgendaService {
           })
       })
     }
+
+    lista_potenciales()
+    {
+      let coleccion = this.bd.collection('clientes_potenciales')
+      let lista:Potencial[] = []
+
+      let filtroCons = null
+
+      let filtroPais = null
+      let filtroEstado = null
+      let filtroCiudad = null
+      let filtroCanal = null
+      let filtroClase = null
+      let filtroDato = null
+      let filtroSector = null
+      let filtroZona = null
+      let filtroPotencial = null
+      let filtroPotencialOtro = null
+
+      if (this.filtro.Estado !== 0)
+      {
+        filtroEstado = {
+          estado: {
+            $eq: this.filtro.Estado
+          }
+        }
+      }
+
+      if (this.filtro.Ciudad !== 0)
+      {
+        filtroCiudad = {
+          ciudad: {
+            $eq: this.filtro.Ciudad
+          }
+        }
+      }      
+
+      if (this.filtro.Clase.length > 0)
+      {
+          filtroClase = {
+            clase: {
+              $eq: this.filtro.Clase
+            }
+          }
+      }
+
+      if (this.filtro.Canal.length > 0)
+      {
+          filtroClase = {
+            adicionales: {
+              canal: {
+                $eq: this.filtro.Canal
+              }
+            }
+          }
+      }
+
+      if (this.filtro.Dato)
+      {
+          filtroDato = {
+              $or: [{
+                codclie: this.filtro.Dato
+              },{
+                descrip: this.filtro.Dato
+              },{
+                descrip: this.filtro.DatoMay
+              }]
+            }
+      }
+
+      if (this.filtro.Sector > 0)
+      {
+          filtroSector = {
+              adicionales: {
+                sector: {
+                    $eq: this.filtro.Sector
+                }
+              }
+          }
+      }
+
+      if (this.filtro.Zona.length > 0)
+      {
+          filtroZona = {
+            codzona : {
+              $eq: this.filtro.Zona
+            }
+          }
+      }
+
+      if (this.filtro.Potenciales)
+      {
+          if (this.filtro.OtrosPotenciales)
+          {
+              filtroPotencial = {
+                 $or: [{
+                    tipo: { $eq: 'Potencial'}
+                 },{
+                    tipo: { $eq: 'Otros'}
+                 }]
+              }
+          }
+          else
+          {
+              filtroPotencial = {
+                  tipo : {
+                      $eq: 'Potencial'
+                  }
+              }
+          }
+      }
+
+      if (this.filtro.OtrosPotenciales && !this.filtro.Potenciales)
+      {
+          filtroPotencialOtro = {
+              tipo : {
+                  $eq: 'Otros'
+              }
+          }
+      }
+
+      filtroCons = {
+        $and: [
+          filtroCanal,
+          filtroCiudad,
+          filtroClase,
+          filtroDato,
+          filtroEstado,
+          filtroPais,
+          filtroSector,
+          filtroZona,
+          filtroPotencial,
+          filtroPotencialOtro
+        ]
+      }
+
+      return new Promise((r,j) => {
+
+          coleccion.load((e: any,t: any,s: any) => {
+
+               lista = coleccion.find(
+                filtroCons, { 
+                  $orderBy: {
+                      descrip: 1
+                  }
+                }
+               )
+
+              r(lista)
+          })
+      })
+    }    
 
     info_cliente(dato: string)
     {
