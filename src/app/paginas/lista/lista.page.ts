@@ -9,44 +9,66 @@ import { Router } from '@angular/router';
   styleUrls: ['./lista.page.scss'],
 })
 export class ListaPage implements OnInit {
-
+  todos:Cliente[] = []
   clientes:Cliente[] = []
   potenciales:Potencial[] = []
   esPotencial:boolean = false
+
+  pos:number = 0
 
   constructor(private sc:AgendaService, private ruta:Router) { }
 
   ngOnInit() 
   {
     console.log('Cargando lista de clientes...')
-    this.cargar_lista()
+    this.listar()
   }
 
-  cargar_lista()
-  {
-      this.potenciales = []
-      this.clientes = []
-      
+  cargar_lista(event?)
+  {     
+      let existe:boolean
+
       if (this.sc.filtro.Potenciales || this.sc.filtro.OtrosPotenciales)
       {
-        console.log('Listando potenciales')
         this.esPotencial = true
+        existe = false
+        let lista:Potencial[] = []
+
         this.sc.lista_potenciales()
           .then((c:any) => {
-            this.potenciales = c
+            lista = c
+            this.potenciales.push(...lista.slice(this.pos, this.pos + 10))
             console.log('Clientes potenciales ', this.potenciales)
+            existe = true
           })
       }
       else
       {       
-        console.log('Son clientes')
           this.esPotencial = false
-          this.sc.lista_clientes()
-            .then((c:any) => {
-              this.clientes = c
-              console.log('Clientes ', this.clientes)
-            })
+          existe = false
+          let lista:Cliente[] = []
+
+          lista = this.todos.slice(this.pos, this.pos + 10)
+          this.clientes.push(...lista)
+          existe = lista.length > 0
       }
+
+      if (!existe && event)
+      {
+          console.log('Llegamos aquí y pa fuera!!!')
+          event.target.disabled = true
+          event.target.complete()
+          return        
+      }
+
+      this.pos += 10
+
+      if (event)
+      {
+        console.log('hola')
+        event.target.complete();
+      }
+      console.log('Ahora pos vale: ', this.pos)
   }
 
   verDetalle(cliente:Cliente)
@@ -71,5 +93,17 @@ export class ListaPage implements OnInit {
   filtrar()
   {
       this.ruta.navigateByUrl("/filtro")
+  }
+
+  listar()
+  {
+      this.clientes = []
+      this.potenciales = []
+      this.pos = 0
+      this.sc.lista_clientes()
+        .then((c:any) => {
+            this.todos = c
+            this.cargar_lista()
+        })
   }
 }

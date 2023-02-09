@@ -79,4 +79,9 @@
                   </ion-row>
                 </ion-grid>
 
+                <ion-infinite-scroll threshold="150px" position="bottom" (ionInfinite)="cargar_lista($event)">
+                  <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Ver más...">
+                  </ion-infinite-scroll-content>
+                </ion-infinite-scroll>
+
 </ion-content>
