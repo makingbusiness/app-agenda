@@ -51,6 +51,10 @@ const routes: Routes = [
     path: 'programaciones',
     loadChildren: () => import('./paginas/programaciones/programaciones.module').then( m => m.ProgramacionesPageModule)
   },
+  {
+    path: 'lista-programacion',
+    loadChildren: () => import('./paginas/lista-programacion/lista-programacion.module').then( m => m.ListaProgramacionPageModule)
+  },
 ];
 
 @NgModule({

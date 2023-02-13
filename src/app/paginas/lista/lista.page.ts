@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AgendaService } from '../../servicios/agenda.service';
-import { Cliente, Potencial } from '../../modelo/Cliente';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular'
+import moment from 'moment'
+import { Cliente, Potencial } from '../../modelo/Cliente';
+import { Programacion } from '../../modelo/Programacion';
 
 @Component({
   selector: 'app-lista',
@@ -9,66 +12,45 @@ import { Router } from '@angular/router';
   styleUrls: ['./lista.page.scss'],
 })
 export class ListaPage implements OnInit {
-  todos:Cliente[] = []
   clientes:Cliente[] = []
   potenciales:Potencial[] = []
   esPotencial:boolean = false
+  esOtros:boolean = false
+  todo:boolean = false
+  fechaProgramacion: string = moment().format('YYYY-MM-DD')
 
-  pos:number = 0
 
-  constructor(private sc:AgendaService, private ruta:Router) { }
+  constructor(private sc:AgendaService, private ruta:Router,private toast:ToastController) { }
 
   ngOnInit() 
   {
     console.log('Cargando lista de clientes...')
-    this.listar()
+    this.cargar_lista()
   }
 
-  cargar_lista(event?)
+  cargar_lista()
   {     
-      let existe:boolean
-
       if (this.sc.filtro.Potenciales || this.sc.filtro.OtrosPotenciales)
       {
         this.esPotencial = true
-        existe = false
-        let lista:Potencial[] = []
+        this.potenciales = []
 
         this.sc.lista_potenciales()
           .then((c:any) => {
-            lista = c
-            this.potenciales.push(...lista.slice(this.pos, this.pos + 10))
-            console.log('Clientes potenciales ', this.potenciales)
-            existe = true
+            this.potenciales = c
+
+            this.esOtros =  this.potenciales.filter(p => p.tipo !== 'Otros').length === 0
           })
       }
       else
       {       
           this.esPotencial = false
-          existe = false
-          let lista:Cliente[] = []
-
-          lista = this.todos.slice(this.pos, this.pos + 10)
-          this.clientes.push(...lista)
-          existe = lista.length > 0
+          this.clientes = []
+          this.sc.lista_clientes()
+            .then((c:any) => {
+                this.clientes = c
+          })
       }
-
-      if (!existe && event)
-      {
-          console.log('Llegamos aquí y pa fuera!!!')
-          event.target.disabled = true
-          event.target.complete()
-          return        
-      }
-
-      this.pos += 10
-
-      if (event)
-      {
-        console.log('hola')
-        event.target.complete();
-      }
-      console.log('Ahora pos vale: ', this.pos)
   }
 
   verDetalle(cliente:Cliente)
@@ -95,15 +77,81 @@ export class ListaPage implements OnInit {
       this.ruta.navigateByUrl("/filtro")
   }
 
-  listar()
+  seleccionar_todo()
   {
-      this.clientes = []
-      this.potenciales = []
-      this.pos = 0
-      this.sc.lista_clientes()
-        .then((c:any) => {
-            this.todos = c
-            this.cargar_lista()
-        })
+      if (this.sc.esPotencial)
+      {
+          this.potenciales.map(m => m.seleccionado = this.todo)
+      }
+      else
+      {
+          this.clientes.map(m => m.seleccionado = this.todo)
+      }
+  }
+
+  async generar()
+  { 
+      let lista:Programacion[] = []
+
+      if (!this.sc.esPotencial)
+      {
+          this.clientes.forEach(c => {
+              if (c.seleccionado)
+              {
+                  lista.push({
+                      CodClie: c.codclie,
+                      Enviado: false,
+                      EsVisita: false,
+                      FechaProg: this.fechaProgramacion,
+                      FechaVisita:'',
+                      HoraVisita: '',
+                      NoCompra: '',
+                      Nombre: c.descrip,
+                      Observaciones: '',
+                      Vendedor: '001'
+                  })
+                }
+                
+              })      
+              
+              this.clientes.map(m => m.seleccionado = false)
+        }
+        else
+        {
+          this.potenciales.forEach(c => {
+            if (c.seleccionado)
+            {
+              lista.push({
+                CodClie: c.codclie,
+                Enviado: false,
+                EsVisita: false,
+                FechaProg: this.fechaProgramacion,
+                FechaVisita:'',
+                HoraVisita: '',
+                NoCompra: '',
+                Nombre: c.descrip,
+                Observaciones: '',
+                Vendedor: '001'
+              })
+
+            }
+          })
+
+          this.potenciales.map(m => m.seleccionado = false)
+        }
+        
+        if (lista.length > 0)
+        {
+          
+          const mensaje = await this.toast.create({
+            message: `Se crearon ${ lista.length } programaciones`,
+            duration: 800,
+            position: 'middle'
+          })
+          
+          console.log('Programados: ', lista)
+          lista = []
+          await mensaje.present()
+        }
   }
 }

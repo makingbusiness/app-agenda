@@ -188,4 +188,9 @@ export class FiltroPage implements OnInit {
   {
       this.ruta.navigateByUrl('opciones')
   }
+
+  ver_programaciones()
+  {
+      this.ruta.navigateByUrl('lista-programacion')
+  }
 }

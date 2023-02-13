@@ -27,6 +27,7 @@ export interface Cliente {
   adicionales: Adicionales
   notas: Nota[]
   observaciones: Observacione[]
+  seleccionado?: boolean
 }
 
 export interface Cartera {
@@ -125,4 +126,5 @@ export interface Potencial
     nomCom: string
     nomTes: string
     tipo: string
+    seleccionado?: boolean
 }
