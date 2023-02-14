@@ -140,6 +140,7 @@ export class ClientePage implements OnInit {
       }
       else
       {
+          console.log(this.sc.cliente)
           this.info = {
             codclie: this.sc.cliente.codclie,
             contacto: this.sc.cliente.adicionales.contacto,
@@ -152,7 +153,7 @@ export class ClientePage implements OnInit {
           }
     
           this.claseSel = this.sc.cliente.clase
-          this.canalSel = this.sc.cliente.adicionales.canal
+          this.canalSel = 'DEPOSITOS'//this.sc.cliente.adicionales.canal
     
           this.paisSel = this.sc.cliente.pais
           this.dptoSel = this.sc.cliente.estado

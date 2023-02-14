@@ -25,7 +25,15 @@ export class ListaPage implements OnInit {
   ngOnInit() 
   {
     console.log('Cargando lista de clientes...')
-    this.cargar_lista()
+    this.listar()
+  }
+
+  listar()
+  {
+      this.clientes = []
+      this.potenciales = []
+
+      this.cargar_lista()
   }
 
   cargar_lista()
@@ -33,7 +41,6 @@ export class ListaPage implements OnInit {
       if (this.sc.filtro.Potenciales || this.sc.filtro.OtrosPotenciales)
       {
         this.esPotencial = true
-        this.potenciales = []
 
         this.sc.lista_potenciales()
           .then((c:any) => {
@@ -45,7 +52,6 @@ export class ListaPage implements OnInit {
       else
       {       
           this.esPotencial = false
-          this.clientes = []
           this.sc.lista_clientes()
             .then((c:any) => {
                 this.clientes = c
